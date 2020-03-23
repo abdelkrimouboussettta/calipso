@@ -39,7 +39,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/form/page", name="admin.form.page")
      */
-    public function pageForm(Request $request, ObjectManager $manager)
+    public function pageForm (Request $request, ObjectManager $manager)
     {
         $page =new Page();
         $form = $this->createFormBuilder($page)
@@ -112,6 +112,78 @@ class AdminController extends AbstractController
         
         return $this->redirectToRoute('admin.page');
     }
+    /**
+     * @Route("/admin/categorie", name="admin.categorie")
+     */
+    public function categorie(Request $request)
+    {
+        $repos=$this->getDoctrine() ->getRepository(Categorie::class);
+        $categories=        $repos->findAll();
+            
+        return $this->render('admin/categorie.html.twig', [
+            'controller_name' => 'AdminController',
+        'categories'=>$categories
+            ]);
+    }
+
+    /**
+     * @Route("/admin/form/categorie", name="admin.form.categorie")
+     */
+    public function categorieForm(Request $request, ObjectManager $manager)
+    {
+        $categorie = new Categorie();
+        $form = $this->createFormBuilder($categorie)
+        ->add('titre')
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+        $manager->persist($categorie); 
+        $manager->flush();
+        return $this->redirectToRoute('admin.categorie', 
+        ['id'=>$categorie->getId()]); // Redirection vers
+        }
+        return $this->render('admin/catform.html.twig', [
+            'formCategorie' => $form->createView()
+        ]);
+    }
+    /**
+    * @Route("/admin/categorie/{id}", name="admin.categorie.modif")
+    */
+    
+    public function modifCategorie(categorie $categorie, Request $request, ObjectManager $manager)
+    {
+        $form = $this->createFormBuilder($categorie)
+        ->add('titre')
+        ->getForm();
+        $form->handleRequest($request);
+                
+        if($form->isSubMitted() && $form->isValid()){
+        $manager->persist($categorie);
+        $manager->flush();
+
+        return $this->redirectToRoute('admin.categorie', 
+        ['id'=>$categorie->getId()]);
+        }
+        return $this->render('admin/catmodif.html.twig', [
+        'formModifCat' => $form->createView()
+        ]);
+    }
+    /**
+    * @Route("/admin/categorie/{id}/deletcat", name="admin.categorie.sup")
+    */
+    
+    public function supCategorie($id, ObjectManager $Manager, Request $request)
+    {
+        $repo = $this->getDoctrine()->getRepository(Categorie::class);
+        $categorie = $repo->find($id);
+
+        $Manager->remove($categorie);
+        $Manager->flush();
+        
+        return $this->redirectToRoute('admin.categorie');
+    }
+}
     
  
-}
