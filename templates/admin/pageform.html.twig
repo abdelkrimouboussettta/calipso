@@ -1,17 +1,13 @@
 {% extends 'base.html.twig' %}   
          
 {% form_theme formPage 'bootstrap_4_layout.html.twig' %}
-
 {% block body %}
+<div class = "jumbotron">
+<h2>Creation d'une nouvelle page<h2>
+</div>
 
 {{ form_start(formPage) }}
-{{ form_widget(formPage.titre) }}
-{{ form_widget(formPage.auteur) }}
-{{ form_widget(formPage.createdAt) }}
-{{ form_widget(formPage.jourAt) }}
-{{ form_widget(formPage.contenu) }}
-{{ form_widget(formPage.categorie) }}
-
+{{ form_widget(formPage) }}
 <button type="submit" class="btn btn-success">envoyer</button>
 {{ form_end(formPage) }}
 

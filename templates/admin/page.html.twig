@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="jumbotron">
-<a href="{{path('admin.form.page')}}" class="btn btn-primary"> nouvel page </a>                                      
+<a href="{{path('admin.form.page')}}" class="btn btn-primary"> Créer une  page </a>                                      
 </div>
      
 
@@ -13,11 +13,9 @@
 <tr>
 <th>id</th>
 <th>titre</th>
-<th>auteur</th>
 <th>date de création</th>
 <th>date de mise à jour</th>
-<th>contenu</th>
-<th>categorie</th>
+<th>lire la suite</th>
 <th>modifier</th>
 <th>supprimer</th>
 
@@ -27,11 +25,9 @@
 <tr>
 <td>{{page.id}}</td>
 <td>{{page.titre}}</td>
-<td>{{page.auteur}}</td>
-<td>{{page.createdAt | date('d/m/Y h:i')}}</td>
-<td>{{page.jourAt | date('d/m/Y h:i')}}</td>
-<td>{{page.contenu}}</td>
-<td>{{page.categorie.titre}}</td>
+<td>{{page.createdAt | date('d/m/Y ')}}</td>
+<td>{{page.jourAt | date('d/m/Y ')}}</td>
+<td><a href="{{path('admin.show',{'id':page.id})}} " class="btn btn-primary"> Lire la suite </a></td>      
 <td><a href="{{path('admin.page.modif', {'id':page.id})}}" class="btn btn-info"> modifier </a>                              
 <td><a href="{{path('admin.page.sup', {'id':page.id})}}" class="btn btn-danger"> Supprimer </a>                              
                 </tr>

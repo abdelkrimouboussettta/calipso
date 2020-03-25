@@ -3,50 +3,41 @@
 namespace App\Controller;
 use App\Entity\Page;
 use App\Entity\Categorie;
-
-
-
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/admin/index", name="admin.page")
      */
-    public function index()
-    {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
-    }
-    /**
-     * @Route("/admin/page", name="admin.page")
-     */
-    public function page(Request $request )
+    public function page(Request $request)
     {
         $repo=$this->getDoctrine() ->getRepository(Page::class);
         $pages=$repo->findAll();
-            
              
         return $this->render('admin/page.html.twig', [
             'controller_name' => 'AdminController',
         'pages'=>$pages
             ]);
     }
+    
     /**
-     * @Route("/admin/form/page", name="admin.form.page")
+     * @Route("/admin/page/new", name="admin.form.page")
      */
-    public function pageForm (Request $request, ObjectManager $manager)
+    public function pageForm (Request $request, EntityManagerInterface $manager)
     {
         $page =new Page();
+        $categorie =new Categorie();
         $form = $this->createFormBuilder($page)
         ->add('titre')
         ->add('auteur')
-        ->add('createdAt')
-        ->add('jourAt')
+        ->add('createdAt', DateType::class)
+        ->add('jourAt', DateType::class)
         ->add('contenu')
         ->add('categorie', EntityType::class, [
             'class' => Categorie::class,
@@ -68,16 +59,16 @@ class AdminController extends AbstractController
 
 
     /**
-    * @Route("/admin/page/{id}", name="admin.page.modif")
+    * @Route("/admin/page/edit/{id}", name="admin.page.modif")
     */
     
-    public function pageModif(page $page, Request $request, ObjectManager $manager)
+    public function pageModif(page $page, Request $request, EntityManagerInterface $manager)
     {
         $form = $this->createFormBuilder($page)
         ->add('titre')
         ->add('auteur')
-        ->add('createdAt')
-        ->add('jourAt')
+        ->add('createdAt', DateType::class)
+        ->add('jourAt', DateType::class)
         ->add('contenu')
         ->add('categorie', EntityType::class, [
             'class' => Categorie::class,
@@ -92,17 +83,17 @@ class AdminController extends AbstractController
             $manager->flush();
 
             return $this->redirectToRoute('admin.page', 
-            ['id'=>$page->getId()]); // Redirection vers la page
+            ['id'=>$page->getId()]);
         }
         return $this->render('admin/pagemodif.html.twig', [
                'formModifPage' => $form->createView()
                ]);
     }
     /**
-    * @Route("/admin/page/{id}/deletart", name="admin.page.sup")
+    * @Route("/admin/page/delete/{id}", name="admin.page.sup")
     */
     
-    public function pageSup($id, ObjectManager $manager, Request $request)
+    public function pageSup($id, EntityManagerInterface $manager, Request $request)
     {
         $repo = $this->getDoctrine()->getRepository(Page::class);
         $page = $repo->find($id);
@@ -129,7 +120,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/form/categorie", name="admin.form.categorie")
      */
-    public function categorieForm(Request $request, ObjectManager $manager)
+    public function categorieForm(Request $request, EntityManagerInterface $manager)
     {
         $categorie = new Categorie();
         $form = $this->createFormBuilder($categorie)
@@ -149,10 +140,10 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-    * @Route("/admin/categorie/{id}", name="admin.categorie.modif")
+    * @Route("/admin/categorie/edit/{id}", name="admin.categorie.modif")
     */
     
-    public function modifCategorie(categorie $categorie, Request $request, ObjectManager $manager)
+    public function modifCategorie(categorie $categorie, Request $request, EntityManagerInterface $manager)
     {
         $form = $this->createFormBuilder($categorie)
         ->add('titre')
@@ -171,19 +162,34 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-    * @Route("/admin/categorie/{id}/deletcat", name="admin.categorie.sup")
+    * @Route("/admin/categorie/delete/{id}", name="admin.categorie.sup")
     */
     
-    public function supCategorie($id, ObjectManager $Manager, Request $request)
+    public function supCategorie($id, EntityManagerInterface $manager, Request $request)
     {
         $repo = $this->getDoctrine()->getRepository(Categorie::class);
         $categorie = $repo->find($id);
 
-        $Manager->remove($categorie);
-        $Manager->flush();
+        $manager->remove($categorie);
+        $manager->flush();
         
         return $this->redirectToRoute('admin.categorie');
     }
+    /**
+      * @Route("admin/show/{id}", name="admin.show")
+     */
+    public function show($id, Request $request)
+    {
+        $repo=$this->getDoctrine() ->getRepository(Page::class);
+        $page=$repo->find($id);
+               
+        return $this->render('admin/show.html.twig', [
+            'controller_name' => 'AdminController',
+        'page'=>$page
+            ]);
+    }
+
 }
+
     
  
