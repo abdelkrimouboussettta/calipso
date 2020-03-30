@@ -7,7 +7,12 @@
 </div>
 
 {{ form_start(formPage) }}
-{{ form_widget(formPage) }}
+{{ form_widget(formPage.titre, {'attr':{'placeholder' : "titre del la page"}}) }}
+{{ form_widget(formPage.auteur, {'attr':{'placeholder' : "auter de "}}) }}
+{{ form_widget(formPage.createdAt, {'attr': {'placeholder' :" date de création"}}) }}
+{{ form_widget(formPage.jourAt, {'attr':{'placeholder' : "date de jour"}}) }}
+{{ form_widget(formPage.contenu, {'attr':{'placeholder' : "contenu de la page"}}) }}
+{{ form_widget(formPage.categorie) }}
 <button type="submit" class="btn btn-success">envoyer</button>
 {{ form_end(formPage) }}
 

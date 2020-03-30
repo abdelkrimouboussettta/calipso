@@ -3,11 +3,12 @@
 namespace App\Controller;
 use App\Entity\Page;
 use App\Entity\Categorie;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminController extends AbstractController
@@ -15,10 +16,15 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/index", name="admin.page")
      */
-    public function page(Request $request)
+    public function page(Request $request, PaginatorInterface $paginator)
     {
         $repo=$this->getDoctrine() ->getRepository(Page::class);
-        $pages=$repo->findAll();
+        $pages = $paginator->paginate(
+            $repo->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            5 /*limit per page*/
+        );
+       
              
         return $this->render('admin/page.html.twig', [
             'controller_name' => 'AdminController',
@@ -47,6 +53,7 @@ class AdminController extends AbstractController
         ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            
         $manager->persist($page); 
         $manager->flush();
         return $this->redirectToRoute('admin.page', 
