@@ -11,10 +11,16 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 class AdminController extends AbstractController
 {
     /**
      * @Route("/admin/index", name="admin.page")
+     * 
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
      */
     public function page(Request $request, PaginatorInterface $paginator)
     {
@@ -22,10 +28,9 @@ class AdminController extends AbstractController
         $pages = $paginator->paginate(
             $repo->findAll(),
             $request->query->getInt('page', 1), /*page number*/
-            5 /*limit per page*/
+            9 /*limit per page*/
         );
        
-             
         return $this->render('admin/page.html.twig', [
             'controller_name' => 'AdminController',
         'pages'=>$pages
@@ -34,10 +39,16 @@ class AdminController extends AbstractController
     
     /**
      * @Route("/admin/page/new", name="admin.form.page")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+
      */
     public function pageForm (Request $request, EntityManagerInterface $manager)
     {
         $page =new Page();
+        $page->setCreatedAt(new \DateTime());
+        $page->setJourAt(new \DateTime());
         $categorie =new Categorie();
         $form = $this->createFormBuilder($page)
         ->add('titre')
@@ -67,10 +78,17 @@ class AdminController extends AbstractController
 
     /**
     * @Route("/admin/page/edit/{id}", name="admin.page.modif")
+    * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param Page $page
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     
     */
     
     public function pageModif(page $page, Request $request, EntityManagerInterface $manager)
     {
+        
+        $page->setJourAt(new \DateTime());
         $form = $this->createFormBuilder($page)
         ->add('titre')
         ->add('auteur')
@@ -98,6 +116,11 @@ class AdminController extends AbstractController
     }
     /**
     * @Route("/admin/page/delete/{id}", name="admin.page.sup")
+         * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+
     */
     
     public function pageSup($id, EntityManagerInterface $manager, Request $request)
@@ -112,6 +135,9 @@ class AdminController extends AbstractController
     }
     /**
      * @Route("/admin/categorie", name="admin.categorie")
+     * 
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function categorie(Request $request)
     {
@@ -126,6 +152,11 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/form/categorie", name="admin.form.categorie")
+     * 
+          * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+
      */
     public function categorieForm(Request $request, EntityManagerInterface $manager)
     {
@@ -148,6 +179,12 @@ class AdminController extends AbstractController
     }
     /**
     * @Route("/admin/categorie/edit/{id}", name="admin.categorie.modif")
+    *
+    * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param Categorie $categorie
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     
     */
     
     public function modifCategorie(categorie $categorie, Request $request, EntityManagerInterface $manager)
@@ -170,6 +207,12 @@ class AdminController extends AbstractController
     }
     /**
     * @Route("/admin/categorie/delete/{id}", name="admin.categorie.sup")
+    *
+         * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+
     */
     
     public function supCategorie($id, EntityManagerInterface $manager, Request $request)
@@ -184,6 +227,11 @@ class AdminController extends AbstractController
     }
     /**
       * @Route("admin/show/{id}", name="admin.show")
+      *
+      * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     
      */
     public function show($id, Request $request)
     {
