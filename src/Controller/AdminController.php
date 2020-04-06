@@ -80,22 +80,12 @@ class AdminController extends AbstractController
     public function pageModif(page $page, Request $request, EntityManagerInterface $manager)
     {
         
-        $page->setJourAt(new \DateTime('now'));
-        $form = $this->createFormBuilder($page)
-        ->add('titre')
-        ->add('auteur')
-        ->add('createdAt', DateTimeType::class)
-        ->add('jourAt', DateTimeType::class)
-        ->add('contenu')
-        ->add('categorie', EntityType::class, [
-            'class' => Categorie::class,
-            "choice_label" => 'titre'
-    ])
-         
-        ->getForm();
+        $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
                 
         if($form->isSubMitted() && $form->isValid()){
+            
+            $page->setJourAt(new \DateTime());
             $manager->persist($page);
             $manager->flush();
 
@@ -178,9 +168,7 @@ class AdminController extends AbstractController
     
     public function modifCategorie(categorie $categorie, Request $request, EntityManagerInterface $manager)
     {
-        $form = $this->createFormBuilder($categorie)
-        ->add('titre')
-        ->getForm();
+        $form = $this->createForm(CategorieType::class, $categorie);
         $form->handleRequest($request);
                 
         if($form->isSubMitted() && $form->isValid()){
