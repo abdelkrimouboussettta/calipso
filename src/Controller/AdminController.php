@@ -8,7 +8,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+//use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -28,7 +29,7 @@ class AdminController extends AbstractController
         $pages = $paginator->paginate(
             $repo->findAll(),
             $request->query->getInt('page', 1), /*page number*/
-            9 /*limit per page*/
+            15 /*limit per page*/
         );
        
         return $this->render('admin/page.html.twig', [
@@ -53,8 +54,8 @@ class AdminController extends AbstractController
         $form = $this->createFormBuilder($page)
         ->add('titre')
         ->add('auteur')
-        ->add('createdAt', DateType::class)
-        ->add('jourAt', DateType::class)
+        ->add('createdAt', DateTimeType::class)
+        ->add('jourAt', DateTimeType::class)
         ->add('contenu')
         ->add('categorie', EntityType::class, [
             'class' => Categorie::class,
@@ -88,12 +89,12 @@ class AdminController extends AbstractController
     public function pageModif(page $page, Request $request, EntityManagerInterface $manager)
     {
         
-        $page->setJourAt(new \DateTime());
+        $page->setJourAt(new \DateTime('now'));
         $form = $this->createFormBuilder($page)
         ->add('titre')
         ->add('auteur')
-        ->add('createdAt', DateType::class)
-        ->add('jourAt', DateType::class)
+        ->add('createdAt', DateTimeType::class)
+        ->add('jourAt', DateTimeType::class)
         ->add('contenu')
         ->add('categorie', EntityType::class, [
             'class' => Categorie::class,
