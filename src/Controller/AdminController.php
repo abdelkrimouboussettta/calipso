@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 use App\Entity\Page;
+use App\Form\PageType;
 use App\Entity\Categorie;
+use App\Form\CategorieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-//use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -48,24 +50,13 @@ class AdminController extends AbstractController
     public function pageForm (Request $request, EntityManagerInterface $manager)
     {
         $page =new Page();
-        $page->setCreatedAt(new \DateTime());
-        $page->setJourAt(new \DateTime());
         $categorie =new Categorie();
-        $form = $this->createFormBuilder($page)
-        ->add('titre')
-        ->add('auteur')
-        ->add('createdAt', DateTimeType::class)
-        ->add('jourAt', DateTimeType::class)
-        ->add('contenu')
-        ->add('categorie', EntityType::class, [
-            'class' => Categorie::class,
-            "choice_label" => 'titre'
-      ])
-         
-        ->getForm();
+        $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            $page->setCreatedAt(new \DateTime());
+            $page->setJourAt(new \DateTime());
+                
         $manager->persist($page); 
         $manager->flush();
         return $this->redirectToRoute('admin.page', 
@@ -162,10 +153,7 @@ class AdminController extends AbstractController
     public function categorieForm(Request $request, EntityManagerInterface $manager)
     {
         $categorie = new Categorie();
-        $form = $this->createFormBuilder($categorie)
-        ->add('titre')
-        ->getForm();
-
+        $form = $this->createForm(CategorieType::class, $categorie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
