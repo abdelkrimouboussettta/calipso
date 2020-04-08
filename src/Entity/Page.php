@@ -45,7 +45,12 @@ class Page
      * @ORM\ManyToOne(targetEntity="App\Entity\Categorie", inversedBy="pages")
      */
     private $categorie;
+/**
+     * @var UploadedFile
+     */
+    private $fichier;
 
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -122,4 +127,20 @@ class Page
 
         return $this;
     }
+    /**
+     * @return UploadedFile
+     */
+    public function getFichier()
+    {
+        return $this->fichier;
+    }
+
+        /**
+         * @param \Symfony\Component\HttpFoundation\File\UploadedFile $fichier
+         */
+        public function setFichier($fichier)
+    {
+        $this->fichier = $fichier;
+    }
 }
+

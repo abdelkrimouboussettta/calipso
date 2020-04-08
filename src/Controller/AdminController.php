@@ -4,7 +4,9 @@ namespace App\Controller;
 use App\Entity\Page;
 use App\Form\PageType;
 use App\Entity\Categorie;
+use App\Entity\Fichier;
 use App\Form\CategorieType;
+use App\Form\FichierType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,6 +56,18 @@ class AdminController extends AbstractController
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Page $page */
+            $page = $form->getData();
+
+
+            /** @var UploadedFile $file */
+            $file = $page->getFichier();
+
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            $file->move( '../uploads',   $fileName);
+
+            
             $page->setCreatedAt(new \DateTime());
             $page->setJourAt(new \DateTime());
                 

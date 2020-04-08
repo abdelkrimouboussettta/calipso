@@ -32,6 +32,10 @@ class Categorie
     {
         $this->pages = new ArrayCollection();
     }
+    public function __toString()
+    {
+        return $this->titre;
+    }
 
     public function getId(): ?int
     {
