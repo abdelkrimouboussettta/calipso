@@ -3,9 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Page;
-use App\Entity\Categorie;
 use App\Entity\Fichier;
+use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +19,7 @@ class PageType extends AbstractType
         $builder
             ->add('titre')
             ->add('auteur')
-            ->add('contenu')
+            ->add('contenu', CKEditorType::class)
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 "choice_label" => 'titre'

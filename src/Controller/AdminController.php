@@ -27,7 +27,8 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * 
      */
-    public function page(Request $request, PaginatorInterface $paginator)
+    //liste des pages
+     public function page(Request $request, PaginatorInterface $paginator)
     {
         $repo=$this->getDoctrine() ->getRepository(Page::class);
         $pages = $paginator->paginate(
@@ -49,10 +50,12 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 
      */
+    
+    // création d'une nouvelle page 
     public function pageForm (Request $request, EntityManagerInterface $manager)
     {
         $page =new Page();
-        $categorie =new Categorie();
+$categorie =new Categorie();        
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +69,6 @@ class AdminController extends AbstractController
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
             $file->move( '../uploads',   $fileName);
-
             
             $page->setCreatedAt(new \DateTime());
             $page->setJourAt(new \DateTime());
@@ -81,16 +83,14 @@ class AdminController extends AbstractController
         ]);
     }
 
-
     /**
     * @Route("/admin/page/edit/{id}", name="admin.page.modif")
     * @param Request $request
      * @param EntityManagerInterface $manager
      * @param Page $page
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response     
     */
-    
+    //modifier une page
     public function pageModif(page $page, Request $request, EntityManagerInterface $manager)
     {
         
@@ -98,6 +98,16 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
                 
         if($form->isSubMitted() && $form->isValid()){
+            /** @var Page $page */
+            $page = $form->getData();
+
+
+            /** @var UploadedFile $file */
+            $file = $page->getFichier();
+
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            $file->move( '../uploads',   $fileName);
             
             $page->setJourAt(new \DateTime());
             $manager->persist($page);
@@ -118,7 +128,7 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
 
     */
-    
+    // supprimer une page
     public function pageSup($id, EntityManagerInterface $manager, Request $request)
     {
         $repo = $this->getDoctrine()->getRepository(Page::class);
@@ -135,6 +145,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
+        // liste des catégories 
     public function categorie(Request $request)
     {
         $repos=$this->getDoctrine() ->getRepository(Categorie::class);
@@ -154,7 +165,8 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 
      */
-    public function categorieForm(Request $request, EntityManagerInterface $manager)
+// création d'une nouvelle catégorie
+     public function categorieForm(Request $request, EntityManagerInterface $manager)
     {
         $categorie = new Categorie();
         $form = $this->createForm(CategorieType::class, $categorie);
@@ -179,7 +191,7 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      
     */
-    
+    // modification de la catégorie
     public function modifCategorie(categorie $categorie, Request $request, EntityManagerInterface $manager)
     {
         $form = $this->createForm(CategorieType::class, $categorie);
@@ -205,7 +217,7 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
 
     */
-    
+    // supprimer une catégorie
     public function supCategorie($id, EntityManagerInterface $manager, Request $request)
     {
         $repo = $this->getDoctrine()->getRepository(Categorie::class);
@@ -224,6 +236,8 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      
      */
+    
+    //détail affichage d'une seul page 
     public function show($id, Request $request)
     {
         $repo=$this->getDoctrine() ->getRepository(Page::class);
