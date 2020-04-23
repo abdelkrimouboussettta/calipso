@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,6 +51,24 @@ class Page
      * @var UploadedFile
      */
     private $fichier;
+
+    /**
+    * @var page 
+    * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="enfants")
+     */
+    private $parent;
+
+    /**
+    * var ArrayCollection 
+    * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="parent")
+     */
+    private $enfants;
+
+    public function __construct()
+    {
+        
+        $this->enfants = new ArrayCollection();
+    }
 
     
     public function getId(): ?int
@@ -141,6 +161,53 @@ class Page
         public function setFichier($fichier)
     {
         $this->fichier = $fichier;
+        return $this;
     }
+    /**
+     * @return page
+     */
+     
+
+        public function getParent(): ?page
+        {
+            return $this->parent;
+        }
+    /**
+    * @param page $parent
+    */
+
+        public function setParent( $parent): self
+        {
+            $this->parent = $parent;
+
+            return $this;
+        }
+
+        /**
+         * @return Collection|self[]
+         */
+        public function getEnfants(): Collection
+        {
+            return $this->enfants;
+        }
+
+        public function addEnfant(self $enfant): self
+        {
+            if (!$this->enfants->contains($enfant)) {
+                $this->enfants[] = $enfant;
+            }
+
+            return $this;
+        }
+
+        public function removeEnfant(self $enfant): self
+    {
+        if ($this->enfants->contains($enfant)) {
+            $this->enfants->removeElement($enfant);
+        }
+
+            return $this;
+    }    
 }
 
+        

@@ -5,20 +5,16 @@
 
 {% block body %}
     <article>
+    <div>
             <p>Numero de la page: {{page.id}}</p>
 
            <p>Titre de :</p>
             {{page.titre}}
             <p>Categorie :</p>
               {{page.categorie.titre}}
-              <br>
 
-              
+
              <p>contenu: </p>
-            
-             
-              
-              <br>
             
              {{page.contenu}}
             <p>écrit par:</p>
@@ -29,5 +25,5 @@
         {{page.jourAt | date('d/m/Y h:i ')}}
             </div>       
        </article>   
-       </div>
+       
 {% endblock %}

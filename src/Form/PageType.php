@@ -25,8 +25,13 @@ class PageType extends AbstractType
                 "choice_label" => 'titre'
           ])
           ->add('fichier', FileType::class, [
-            //                'mapped'   => false, //@todo A enlever, je l'ai mis pour qu'il ne le prenne pas en compte lors de l'insertion en BDD
-                        ]);
+            // 'mapped'   => false, //@todo A enlever, je l'ai mis pour qu'il ne le prenne pas en compte lors de l'insertion en BDD
+                    ])
+                    ->add('parent', EntityType::class, [
+                    'class' => Page::class,
+                        "choice_label" => 'titre'
+                      ]);
+            
                 }
                     
     public function configureOptions(OptionsResolver $resolver)
