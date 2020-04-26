@@ -79,7 +79,25 @@
         </div>
 
     </div>
-    
+
+<div class="form-group">
+
+    {{ form_label(formModifPage.parent) }}
+
+    <div class="col-sm-4 col-xs-8 small-spacer">
+
+    {{ form_widget(formModifPage.parent) }}
+
+    </div>
+
+        <div class="col-xs-12">
+
+    {{ form_errors(formModifPage.parent) }}
+
+    </div>
+
+    </div>
+
     <div class="form-group">
 
         {{ form_label(formModifPage.fichier) }}
