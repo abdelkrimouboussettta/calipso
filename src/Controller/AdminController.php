@@ -5,6 +5,7 @@ use App\Entity\Page;
 use App\Form\PageType;
 use App\Entity\Categorie;
 use App\Entity\Fichier;
+use App\Entity\document;
 use App\Form\CategorieType;
 use App\Form\FichierType;
 use Doctrine\ORM\EntityManagerInterface;
