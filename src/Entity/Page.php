@@ -47,11 +47,7 @@ class Page
      * @ORM\ManyToOne(targetEntity="App\Entity\Categorie", inversedBy="pages")
      */
     private $categorie;
-/**
-     * @var UploadedFile
-     */
-    private $fichier;
-
+     
     /**
     * @var page 
     * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="enfants")
@@ -154,26 +150,9 @@ class Page
         return $this;
     }
     /**
-     * @return UploadedFile
-     */
-    public function getFichier()
-    {
-        return $this->fichier;
-    }
-
-        /**
-         * @param \Symfony\Component\HttpFoundation\File\UploadedFile $fichier
-         */
-        public function setFichier($fichier)
-    {
-        $this->fichier = $fichier;
-        return $this;
-    }
-    /**
      * @return page
      */
      
-
         public function getParent(): ?page
         {
             return $this->parent;

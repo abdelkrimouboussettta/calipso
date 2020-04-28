@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Page;
-use App\Entity\Fichier;
 use App\Entity\Document;
 use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
@@ -12,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class PageType extends AbstractType
 {
@@ -29,12 +29,11 @@ class PageType extends AbstractType
           ->add('documents', EntityType::class, [
             'class' => Document::class,
             "choice_label" => 'titre'
-      ])->add('fichier', FileType::class, [
-            // 'mapped'   => false, //@todo A enlever, je l'ai mis pour qu'il ne le prenne pas en compte lors de l'insertion en BDD
-                    ])
+          ])
+      
                     ->add('parent', EntityType::class, [
                     'class' => Page::class,
-                        "choice_label" => 'titre'
+                    "choice_label" => 'titre'
                       ]);
             
                 }
