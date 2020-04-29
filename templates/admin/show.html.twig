@@ -23,7 +23,12 @@
         {{page.createdAt | date('d/m/Y h:i ')}}
         <p>Date de modification de la page:</p>
         {{page.jourAt | date('d/m/Y h:i ')}}
-            </div>       
+<p>document </p>
+{% for document in page.documents %}
+{{ document.titre }}
+
+{% endfor %}
+            </div>
        </article>   
        
 {% endblock %}

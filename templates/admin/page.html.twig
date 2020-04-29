@@ -27,14 +27,14 @@
 <td>{{page.titre}}</td>
 <td>{{page.createdAt | date('d/m/Y h:i ')}}</td>
 <td>{{page.jourAt | date('d/m/Y h:i ')}}</td>
-<td>{{page.titre}}</td>
+<td>{% if page.parent is not null%}{{page.parent.titre}}{% endif %}</td>
 
 <td><a href="{{path('admin.show',{'id':page.id})}} " class="btn btn-primary"> Lire la suite </a></td>      
 <td><a href="{{path('admin.page.modif', {'id':page.id})}}" class="btn btn-info"> modifier </a>                              
 <td><a href="{{path('admin.page.sup', {'id':page.id})}}" class="btn btn-danger"> Supprimer </a>                              
                 </tr>
             
-        {% endfor %}
+    {% endfor %}
             </table>            
         </div>
 
