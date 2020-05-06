@@ -50,7 +50,7 @@ class DocumentController extends AbstractController
             
             $entityManager->persist($document);
             $entityManager->flush();
-
+            $this->addFlash('success', "Votre fichier a été importé ");
             return $this->redirectToRoute('document_index');
         }
 
@@ -79,6 +79,17 @@ class DocumentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+/** @var Document $document */
+$document = $form->getData();
+
+/** @var UploadedFile $file */
+$file = $document->getFichier();
+
+$fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+$file->move( '../uploads',   $fileName);
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('document_index');

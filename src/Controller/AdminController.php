@@ -4,12 +4,13 @@ namespace App\Controller;
 use App\Entity\Page;
 use App\Form\PageType;
 use App\Entity\Categorie;
-use App\Entity\document;
+use App\Entity\Document;
 use App\Form\CategorieType;
+use App\Form\DocumentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -31,15 +32,15 @@ class AdminController extends AbstractController
     {
         $repo=$this->getDoctrine() ->getRepository(Page::class);
         $pages = $paginator->paginate(
-            $repo->findAll(),
-            $request->query->getInt('page', 1), /*page number*/
-            15 /*limit per page*/
+        $repo->findAll(),
+        $request->query->getInt('page', 1), /*page number*/
+        15 /*limit per page*/
         );
        
         return $this->render('admin/page.html.twig', [
-            'controller_name' => 'AdminController',
+        'controller_name' => 'AdminController',
         'pages'=>$pages
-            ]);
+        ]);
     }
     
     /**
@@ -53,22 +54,21 @@ class AdminController extends AbstractController
     // création d'une nouvelle page 
     public function pageForm (Request $request, EntityManagerInterface $manager)
     {
-        $page =new Page();
-$categorie =new Categorie();        
-        $form = $this->createForm(PageType::class, $page);
+        
+    
+        $form = $this->createForm(PageType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Page $page */
             $page = $form->getData();
 
-
             $page->setCreatedAt(new \DateTime());
             $page->setJourAt(new \DateTime());
                 
-        $manager->persist($page); 
-        $manager->flush();
-        return $this->redirectToRoute('admin.page', 
-        ['id'=>$page->getId()]); // Redirection vers la page
+           $manager->persist($page); 
+            $manager->flush();
+         return $this->redirectToRoute('admin.page', 
+            ['id'=>$page->getId()]); // Redirection vers la page
         }
         return $this->render('admin/pageform.html.twig', [
             'formPage' => $form->createView()
@@ -90,20 +90,20 @@ $categorie =new Categorie();
         $form->handleRequest($request);
                 
         if($form->isSubMitted() && $form->isValid()){
+
             /** @var Page $page */
             $page = $form->getData();
-
-
-            $page->setJourAt(new \DateTime());
+            
+            $page->setJourAt(new \DateTime());           
             $manager->persist($page);
             $manager->flush();
 
-            return $this->redirectToRoute('admin.page', 
-            ['id'=>$page->getId()]);
+            return $this->redirectToRoute('admin.page', [
+            'id'=>$page->getId()]);
         }
         return $this->render('admin/pagemodif.html.twig', [
-               'formModifPage' => $form->createView()
-               ]);
+            'formModifPage' => $form->createView()
+            ]);
     }
     /**
     * @Route("/admin/page/delete/{id}", name="admin.page.sup")
@@ -126,7 +126,6 @@ $categorie =new Categorie();
     }
     /**
      * @Route("/admin/categorie", name="admin.categorie")
-     * 
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -137,31 +136,30 @@ $categorie =new Categorie();
         $categories=        $repos->findAll();
             
         return $this->render('admin/categorie.html.twig', [
-            'controller_name' => 'AdminController',
+        'controller_name' => 'AdminController',
         'categories'=>$categories
             ]);
     }
 
     /**
-     * @Route("/admin/form/categorie", name="admin.form.categorie")
-     * 
-          * @param Request $request
+     * @Route("/admin/categorie/new", name="admin.form.categorie")
+    * @param Request $request
      * @param EntityManagerInterface $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 
      */
-// création d'une nouvelle catégorie
-     public function categorieForm(Request $request, EntityManagerInterface $manager)
+    // création d'une nouvelle catégorie
+    public function categorieForm(Request $request, EntityManagerInterface $manager)
     {
         $categorie = new Categorie();
         $form = $this->createForm(CategorieType::class, $categorie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-        $manager->persist($categorie); 
-        $manager->flush();
-        return $this->redirectToRoute('admin.categorie', 
-        ['id'=>$categorie->getId()]); // Redirection vers
+           $manager->persist($categorie); 
+           $manager->flush();
+           return $this->redirectToRoute('admin.categorie', 
+        ['id'=>$categorie->getId()]); 
         }
         return $this->render('admin/catform.html.twig', [
             'formCategorie' => $form->createView()
@@ -169,7 +167,6 @@ $categorie =new Categorie();
     }
     /**
     * @Route("/admin/categorie/edit/{id}", name="admin.categorie.modif")
-    *
     * @param Request $request
      * @param EntityManagerInterface $manager
      * @param Categorie $categorie
@@ -183,10 +180,10 @@ $categorie =new Categorie();
         $form->handleRequest($request);
                 
         if($form->isSubMitted() && $form->isValid()){
-        $manager->persist($categorie);
-        $manager->flush();
+           $manager->persist($categorie);
+          $manager->flush();
 
-        return $this->redirectToRoute('admin.categorie', 
+           return $this->redirectToRoute('admin.categorie', 
         ['id'=>$categorie->getId()]);
         }
         return $this->render('admin/catmodif.html.twig', [
@@ -195,8 +192,7 @@ $categorie =new Categorie();
     }
     /**
     * @Route("/admin/categorie/delete/{id}", name="admin.categorie.sup")
-    *
-         * @param Request $request
+    * @param Request $request
      * @param EntityManagerInterface $manager
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -213,13 +209,12 @@ $categorie =new Categorie();
         
         return $this->redirectToRoute('admin.categorie');
     }
+
     /**
-      * @Route("admin/show/{id}", name="admin.show")
-      *
-      * @param Request $request
+    * @Route("admin/show/{id}", name="admin.show")
+    * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
-     
      */
     
     //détail affichage d'une seul page 
@@ -233,8 +228,5 @@ $categorie =new Categorie();
         'page'=>$page
             ]);
     }
-
-}
-
     
- 
+}
