@@ -23,6 +23,7 @@ class Document
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="documents")
+     
      */
     private $page;
 

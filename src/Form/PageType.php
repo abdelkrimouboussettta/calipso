@@ -29,12 +29,14 @@ class PageType extends AbstractType
           ->add('documents', EntityType::class, [
             'class' => Document::class,
             "choice_label" => 'titre',
-            'multiple' => true
+            'multiple' => true,
+            'required' => false
           ])
       
                     ->add('parent', EntityType::class, [
                     'class' => Page::class,
-                    "choice_label" => 'titre'
+                    "choice_label" => 'titre',
+                    'required' => false
                       ]);
             
                 }
