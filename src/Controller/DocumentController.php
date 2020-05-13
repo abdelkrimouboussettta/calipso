@@ -1,15 +1,16 @@
 <?php
 
 namespace App\Controller;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Document;
 use App\Form\DocumentType;
+
 use App\Repository\DocumentRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/document")
@@ -28,6 +29,7 @@ class DocumentController extends AbstractController
 
     /**
      * @Route("/new", name="document_new", methods={"GET","POST"})
+     
      */
     public function new(Request $request): Response
     {
@@ -42,12 +44,16 @@ class DocumentController extends AbstractController
 
             /** @var UploadedFile $file */
             $file = $document->getFichier();
+            dump($file); 
 
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-            $file->move( '../uploads',   $fileName);
-
-            
+         try {
+            $file->move( '../uploads', $fileName);
+         } catch (FileException $e) {
+            // ... gérer l'exception si quelque chose se produit pendant le téléchargement du fichier
+         }
+           $document->setTitre($fileName);
+           
             $entityManager->persist($document);
             $entityManager->flush();
             $this->addFlash('success', "Votre fichier a été importé ");
