@@ -4,6 +4,7 @@
 
 {% block body %}
 <div class="jumbotron">
+
 <a href="{{path('admin.form.page')}}" class="btn btn-primary"> Créer une  page </a>                                      
 </div>
 <div>
@@ -22,7 +23,6 @@
 </tr>
 
         {% for page in pages %}
-<tr>
 <td>{{page.id}}</td>
 <td>{{page.titre}}</td>
 <td>{{page.createdAt | date('d/m/Y h:i ')}}</td>

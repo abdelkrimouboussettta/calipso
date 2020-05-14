@@ -36,7 +36,6 @@ class AdminController extends AbstractController
         $request->query->getInt('page', 1), /*page number*/
         15 /*limit per page*/
         );
-       
         return $this->render('admin/page.html.twig', [
         'controller_name' => 'AdminController',
         'pages'=>$pages

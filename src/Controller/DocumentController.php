@@ -44,8 +44,8 @@ class DocumentController extends AbstractController
 
             /** @var UploadedFile $file */
             $file = $document->getFichier();
-            dump($file); 
-
+            Dump($file);
+            die.
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
          try {
             $file->move( '../uploads', $fileName);

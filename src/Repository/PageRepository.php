@@ -19,6 +19,19 @@ class PageRepository extends ServiceEntityRepository
         parent::__construct($registry, Page::class);
     }
 
+    /**
+     * @return Page[] Returns an array of Page objects
+     */
+    public function findPagesSansParent()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.parent IS NULL')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Page[] Returns an array of Page objects
     //  */
