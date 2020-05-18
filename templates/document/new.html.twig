@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Document{% endblock %}
+{% block title %}Création d'un document{% endblock %}
 
 {% block body %}
-    <h1>Create new Document</h1>
+    <h1>Créer un document</h1>
 
     {{ include('document/_form.html.twig') }}
 
-    <a href="{{ path('document_index') }}">back to list</a>
+    <a href="{{ path('document_index') }}">Retour à la liste</a>
 {% endblock %}

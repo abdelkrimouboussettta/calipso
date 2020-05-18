@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/index", name="admin.page")
+     * @Route("/admin/index", name="admin.index")
      * 
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -28,7 +28,7 @@ class AdminController extends AbstractController
      * 
      */
     //liste des pages
-     public function page(Request $request, PaginatorInterface $paginator)
+     public function index(Request $request, PaginatorInterface $paginator)
     {
         $repo=$this->getDoctrine() ->getRepository(Page::class);
         $pages = $paginator->paginate(
@@ -36,12 +36,31 @@ class AdminController extends AbstractController
         $request->query->getInt('page', 1), /*page number*/
         15 /*limit per page*/
         );
-        return $this->render('admin/page.html.twig', [
+        return $this->render('admin/index.html.twig', [
         'controller_name' => 'AdminController',
         'pages'=>$pages
         ]);
     }
     
+    /**
+     * @Route("/admin/page", name="admin.page")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    // liste des pages
+    public function page(Request $request)
+    {
+        
+        $repo = $this->getDoctrine()->getRepository(Page::class);
+        $pages = $repo->findAll();
+        
+        return $this->render('admin/page.html.twig', [
+            'controller_name' => 'AdminController',
+            'pages'            => $pages,        
+        ]);
+            
+    }
+  
     /**
      * @Route("/admin/page/new", name="admin.form.page")
      * @param Request $request

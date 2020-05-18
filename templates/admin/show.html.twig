@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Calipso{% endblock %}
 
 {% block body %}
+
+<a href="{{path('admin.index')}}" class="btn btn-primary"> retour à l'accueil </a> 
+    <br>
+
+<a href="{{path('admin.page')}}" class="btn btn-primary"> retour vers la liste</a> 
+  <br>
+  
     <article>
     <div>
             <p>Numero de la page: {{page.id}}</p>
@@ -15,8 +21,9 @@
 
 
              <p>contenu: </p>
-            
+          
              {{page.contenu}}
+
             <p>écrit par:</p>
              {{page.auteur}}
             <p>Date de creation de la page:</p>
@@ -25,7 +32,7 @@
         {{page.jourAt | date('d/m/Y h:i ')}}
 <p>document </p>
 {% for document in page.documents %}
-{{ document.titre }}
+{{ document.titre }}<br>
 
 {% endfor %}
             </div>
