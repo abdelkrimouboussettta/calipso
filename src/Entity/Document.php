@@ -32,6 +32,11 @@ class Document
     */
     private $fichier;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $originalDocument;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,5 +80,17 @@ class Document
     {
         $this->fichier = $fichier;
         }
+
+    public function getOriginalDocument(): ?string
+    {
+        return $this->originalDocument;
+    }
+
+    public function setOriginalDocument(string $originalDocument): self
+    {
+        $this->originalDocument = $originalDocument;
+
+        return $this;
+    }
     
 }

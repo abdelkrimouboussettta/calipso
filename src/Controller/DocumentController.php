@@ -42,7 +42,7 @@ class DocumentController extends AbstractController
             /** @var Document $document */
             $document = $form->getData();
 dump($document);
-
+die.
 
             /** @var UploadedFile $file */
             $file = $document->getFichier();
@@ -52,7 +52,9 @@ dump($document);
          } catch (FileException $e) {
             // ... gérer l'exception si quelque chose se produit pendant le téléchargement du fichier
          }
-           $document->setTitre($fileName);
+           $document->setOriginalDocument($fileName);
+		  $document->setTitre($originalName); 
+		  
            
             $entityManager->persist($document);
             $entityManager->flush();
