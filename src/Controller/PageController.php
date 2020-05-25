@@ -23,13 +23,13 @@ class PageController extends AbstractController
      */
      public function index(Request $request, ArborescenceBS $arborescenceBS)
     {
-        $arborescence = $arborescenceBS->arbre();
+        $arborescences = $arborescenceBS->arbre();
 
-        dump($arborescence);
+        //dump($arborescence);
         
         return $this->render('page/index.html.twig', [
 
-                'arborescence'=>$arborescence
+                'arborescences'=>$arborescences
             ]);
     }
 

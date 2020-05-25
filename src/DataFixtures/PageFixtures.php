@@ -5,13 +5,13 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 Use App\Entity\Page;
-Use App\Entity\Categorie;
+                Use App\Entity\Categorie;
 
 class PageFixtures extends Fixture
-{
+{               
     public function load(ObjectManager $manager)
-    {
-        // $product = new Product();
+{
+// $product = new Product();
         // $manager->persist($product);
         $faker = \Faker\Factory::create();
     for($i=1;$i<6;$i++)

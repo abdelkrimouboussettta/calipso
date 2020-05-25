@@ -41,6 +41,8 @@ class DocumentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             /** @var Document $document */
             $document = $form->getData();
+dump($document);
+
 
             /** @var UploadedFile $file */
             $file = $document->getFichier();

@@ -1,1 +1,17 @@
-{{dump(arborescence)}}
+
+
+<div class="jumbotron">
+<h3> arborescence </h3>
+</div>
+<div>
+<ul>
+{% for arborescence in arborescences %}
+<li>{{arborescence.page.titre}}</li> 
+{% endfor %}
+</ul>
+</div>
+
+
+
+
+
