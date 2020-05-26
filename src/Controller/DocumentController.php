@@ -41,21 +41,23 @@ class DocumentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             /** @var Document $document */
             $document = $form->getData();
-dump($document);
-die.
 
             /** @var UploadedFile $file */
             $file = $document->getFichier();
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
+			$originalName = $file->getClientOriginalName();
          try {
             $file->move( '../uploads', $fileName);
          } catch (FileException $e) {
             // ... gérer l'exception si quelque chose se produit pendant le téléchargement du fichier
          }
+		 
            $document->setOriginalDocument($fileName);
-		  $document->setTitre($originalName); 
+		   $document ->setTitre($originalName);
 		  
-           
+		  
+         
+	  
             $entityManager->persist($document);
             $entityManager->flush();
             $this->addFlash('success', "Votre fichier a été importé ");
