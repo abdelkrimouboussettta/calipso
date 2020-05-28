@@ -32,8 +32,7 @@
         {{page.jourAt | date('d/m/Y h:i ')}}
 <p>document </p>
 {% for document in page.documents %}
-<a href="{{ asset('uploads/' ~ document.originalDocument) }}">{{document.titre}}</a>
-
+<a href="{{ path('document.upload', {'id': document.id}) }}" class="btn btn-info">  {{document.titre}}</a>
 
 {% endfor %}
             </div>

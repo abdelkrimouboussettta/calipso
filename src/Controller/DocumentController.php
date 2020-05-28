@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Controller;
+
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Document;
 use App\Form\DocumentType;
@@ -26,7 +29,6 @@ class DocumentController extends AbstractController
 
     /**
      * @Route("/admin/document/new", name="document_new", methods={"GET","POST"})
-     
      */
     public function new(Request $request): Response
     {
@@ -41,20 +43,17 @@ class DocumentController extends AbstractController
 
             /** @var UploadedFile $file */
             $file = $document->getFichier();
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-			$originalName = $file->getClientOriginalName();
-         try {
-            $file->move( '../uploads', $fileName);
-         } catch (FileException $e) {
-            // ... gérer l'exception si quelque chose se produit pendant le téléchargement du fichier
-         }
-		 
-           $document->setOriginalDocument($fileName);
-		   $document ->setTitre($originalName);
-		  
-		  
-         
-	  
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $originalName = $file->getClientOriginalName();
+            try {
+                $file->move('../uploads', $fileName);
+            } catch (FileException $e) {
+                // ... gérer l'exception si quelque chose se produit pendant le téléchargement du fichier
+            }
+
+            $document->setOriginalDocument($fileName);
+            $document->setTitre($originalName);
+
             $entityManager->persist($document);
             $entityManager->flush();
             $this->addFlash('success', "Votre fichier a été importé ");
@@ -63,7 +62,7 @@ class DocumentController extends AbstractController
 
         return $this->render('document/new.html.twig', [
             'document' => $document,
-            'form' => $form->createView(),
+            'form'     => $form->createView(),
         ]);
     }
 
@@ -77,7 +76,7 @@ class DocumentController extends AbstractController
         ]);
     }
 
-/**
+    /**
      * @Route("/admin/document{id}/edit", name="document_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Document $document): Response
@@ -93,7 +92,7 @@ class DocumentController extends AbstractController
 
         return $this->render('document/edit.html.twig', [
             'document' => $document,
-            'form' => $form->createView(),
+            'form'     => $form->createView(),
         ]);
     }
 
@@ -102,12 +101,23 @@ class DocumentController extends AbstractController
      */
     public function delete(Request $request, Document $document): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$document->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $document->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($document);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('document_index');
+    }
+
+    /**
+     * @Route("/admin/document/download/{id}", name="document.upload")
+     * @return BinaryFileResponse
+     */
+    public function downloadAction($uploadDir, Document $document)
+    {
+        $file = $uploadDir.$document->getOriginalDocument(); // Path to the file on the server
+
+        return $this->file($file, $document->getTitre());
     }
 }
