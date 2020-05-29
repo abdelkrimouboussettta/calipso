@@ -28,7 +28,7 @@
 
 <p>document <
 {% for document in page.documents %}
-<a href="{{ path('document.upload', {'id': document.id}) }}" class="btn btn-info">  {{document.titre}}</a><br>
+<a href="{{ path('document.upload', {'id': document.id}) }}" target="_blank" class="btn btn-info">  {{document.titre}}</a><br>
 {% endfor %}
             </p>
 			</div>
