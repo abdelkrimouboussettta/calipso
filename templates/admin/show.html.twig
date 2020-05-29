@@ -14,28 +14,24 @@
     <div>
             <p>Numero de la page: {{page.id}}</p>
 
-           <p>Titre de :</p>
-            {{page.titre}}
-            <p>Categorie :</p>
-              {{page.categorie.titre}}
+           <p>Titre de :{{page.titre}}</p>
+            <p>Categorie :{{page.categorie.titre}}</p>
+			  
+             <p>contenu:
+             {{page.contenu}}</p>
 
+            <p>écrit par:{{page.auteur}}</p>
+			
+            <p>Date de creation de la page:{{page.createdAt | date('d/m/Y h:i ')}}</p>
+			
+        <p>Date de modification de la page:{{page.jourAt | date('d/m/Y h:i ')}}</p>
 
-             <p>contenu: </p>
-          
-             {{page.contenu}}
-
-            <p>écrit par:</p>
-             {{page.auteur}}
-            <p>Date de creation de la page:</p>
-        {{page.createdAt | date('d/m/Y h:i ')}}
-        <p>Date de modification de la page:</p>
-        {{page.jourAt | date('d/m/Y h:i ')}}
-<p>document </p>
+<p>document <
 {% for document in page.documents %}
-<a href="{{ path('document.upload', {'id': document.id}) }}" class="btn btn-info">  {{document.titre}}</a>
-
+<a href="{{ path('document.upload', {'id': document.id}) }}" class="btn btn-info">  {{document.titre}}</a><br>
 {% endfor %}
-            </div>
+            </p>
+			</div>
        </article>   
        
 {% endblock %}
