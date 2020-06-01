@@ -84,13 +84,13 @@
         {% block body %}
       {% endblock %}
 </div>
-        
+ 
                 {% for message in app.flashes('success') %}
                 <div class="alert alert-success">
                 {{ message }}
                 </div>
-       
-        
+                {% endfor %}
+               
   </main>
   <!-- JS library -->
   <script src="js/amelipro.min.js" type="text/javascript"></script>
