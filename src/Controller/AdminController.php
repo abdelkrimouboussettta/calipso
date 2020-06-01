@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/index", name="admin.index")
+     * @Route("/admin", name="admin.index")
      *
      * @param Request $request
      * @param PaginatorInterface $paginator

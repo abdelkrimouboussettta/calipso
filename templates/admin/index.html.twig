@@ -5,7 +5,7 @@
 {% block body %}
 
  <a href="{{path('admin.page')}}" > 
-<h1>Liste des pages disponibles</h1>
+<h1>Liste des pages </h1>
 <div class="jumbotron">
         <div class="container">
         <div class="row">
@@ -16,9 +16,9 @@
            <h2><a href="{{path('admin.show',{'id':page.id})}}">{{page.titre}}</a></h2>
             <div class = "metadata">  </div>
              <div class = "contenu">
-            <img src="https://via.placeholder.com/300x200" alt="">
-             <<a href="{{path('admin.show',{'id':page.id})}}">{{page.contenu}}</a>
-            <a href="{{path('admin.show',{'id':page.id})}} " class="btn btn-primary"> Lire la suite </a>      
+<p>            <img src="https://via.placeholder.com/300x200" alt="">
+             {{page.contenu}}</p>
+            
             </div>
         </div>          
        </article>   

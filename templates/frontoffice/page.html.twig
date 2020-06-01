@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends 'base2.html.twig' %}
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DIONIS TV</title>
-  <link href="css/amelipro.min.css" rel="stylesheet" />
-</head>
+{% block title %}Liste des pages{% endblock %}
+
+{% block body %}
 
 <body>
 
@@ -26,12 +21,13 @@
 
     </header>
     <article>
-
+          {% for page in page %}
       <div class="row">
         <div class="col-8">
           <div class="vie-des-projets">
-            <h2>Titre de la page</h2>
-
+               {{page.titre}}
+            <h2>Titre de la page</h2>>
+                    
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a feugiat metus.
               Pellentesque vehicula nunc nec sollicitudin mattis. Donec felis lacus, egestas ac dolor non,
@@ -79,6 +75,7 @@
         <div class="col-3 text-right">
           <a href="#" data-toggle="collapse" data-target=".menu">&times;</a>
         </div>
+    {% endfor %}
       </div>
       <div class="row">
         <div class="col-12">
@@ -108,4 +105,4 @@
   <script src="js/amelipro.min.js" type="text/javascript"></script>
 </body>
 
-</html>
+{% endblock %}

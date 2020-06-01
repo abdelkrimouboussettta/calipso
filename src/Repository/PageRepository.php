@@ -60,4 +60,19 @@ class PageRepository extends ServiceEntityRepository
         ;
     }
     */
+	        /**
+         * @return Page[] Returns an array of Page objects
+         */
+        // requete qui  et retourne les 3 derniers pages
+        
+       public function findLastPages()
+    {
+        $query= "select * from page order by created_at desc limit 3";  
+              $stmt = $this->getEntityManager()
+              ->getConnection()->prepare($query);
+                $stmt->execute();  
+              return $stmt->fetchAll();
+                
+            }
+
 }

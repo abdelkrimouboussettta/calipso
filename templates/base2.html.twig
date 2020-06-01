@@ -2,7 +2,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %} Dionis TV{% endblock %}</title>
+        <title>{% block title %}Dionis TV{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
@@ -14,9 +14,6 @@
 
     <body>
       <main class="main-large">
-
-
-
 
     <a href="page.html" class="btn-menu" data-toggle="collapse" data-target=".menu"></a>
 
@@ -48,49 +45,12 @@
       </div>
     </div> 
 
-   <nav class="navbar navbar-light bg-primary " >
-      <form class="form-inline">
-        <a href="{{path('admin.index')}}" > 
-              <button class="btn btn-outline-success bg-dark" type="button"  bg-dark>Accueil</button> 
-        </a>
-      
-        <a href="#" >
-          <button class="btn btn-sm btn-outline-secondary bg-dark" type="button"  >Connexion</button>
-        </a>
-        
-        <a href="{{path('admin.page')}}" > 
-          <button class="btn btn-sm btn-outline-secondary bg-dark" type="button"  >Liste des pages</button>
-        </a>
-      
 
-         <a href="{{path('admin.categorie')}}" > 
-          <button class="btn btn-sm btn-outline-secondary" type="button">Liste des catégories</button>
-        </a>
-
-           <a href="{{path('document_index')}}" >
-          <button class="btn btn-sm btn-outline-secondary" type="button">Liste des documents</button>
-        </a>
-        
-           <a href="{{path('parent.index')}}" >
-          <button class="btn btn-sm btn-outline-secondary" type="button">Arborescence des pages</button>
-        </a>
-      </form>
-
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-</nav>
         {% block body %}
-      {% endblock %}
-</div>
         
-                {% for message in app.flashes('success') %}
-                <div class="alert alert-success">
-                {{ message }}
-                </div>
+        {% endblock %}
        
-        
+      
   </main>
   <!-- JS library -->
   <script src="js/amelipro.min.js" type="text/javascript"></script>
@@ -98,5 +58,4 @@
 </body>
 
 </html>
-    </body>
-</html>
+    
