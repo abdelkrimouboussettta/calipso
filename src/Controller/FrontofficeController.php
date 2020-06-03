@@ -23,7 +23,7 @@ class FrontofficeController extends AbstractController
 
         return $this->render('frontoffice/index.html.twig', [
             'controller_name' => 'FrontofficeController',
-            'page'            => $page,
+            'pages'            => $page,
         ]);
     }
       

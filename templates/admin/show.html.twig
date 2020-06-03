@@ -26,7 +26,7 @@
 			
         <p>Date de modification de la page:{{page.jourAt | date('d/m/Y h:i ')}}</p>
 
-<p>document <
+<p>document 
 {% for document in page.documents %}
 <a href="{{ path('document.upload', {'id': document.id}) }}" target="_blank" class="btn btn-info">  {{document.titre}}</a><br>
 {% endfor %}
